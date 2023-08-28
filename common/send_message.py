@@ -20,9 +20,9 @@ def send_message(send_key):
     }
     if data['desp']:
         try:
-            logger.info("------执行server酱推送------")
+            logger.debug("------执行server酱推送------")
             requests.post(url, data=data)
-            logger.info("------推送成功------")
+            logger.debug("------推送成功------")
         except Exception as e:
             logger.error(e)
     else:

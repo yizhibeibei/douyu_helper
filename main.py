@@ -7,12 +7,14 @@ from common.logger import logger
 import math
 from common.get_secrets import get_secrets
 from common.send_message import send_message
+from common.dirs import LOG_FILE
 
 
 def run():
-    logger.info("------登录检查开始------")
+    logger.add(LOG_FILE, encoding='utf-8', level='INFO', format='{level}:{message}')
+    logger.debug("------登录检查开始------")
     login_res = is_login()
-    logger.info("------登录检查结束------")
+    logger.debug("------登录检查结束------")
     mode = int(conf.get_conf("Modechoose")['givemode'])
     if login_res:
         get_glow()
@@ -20,26 +22,28 @@ def run():
             glow_nums = get_own()
             assert glow_nums != 0
             if mode == 1:
-                logger.info("当前选择模式为:自选模式")
+                logger.debug("当前选择模式为:自选模式")
                 nums = conf.get_conf_list('selfMode', 'giftCount')
                 room_list = conf.get_conf_list('selfMode', 'roomId')
-                logger.info("------开始捐赠荧光棒------")
+                logger.debug("------开始捐赠荧光棒------")
                 for i in range(len(nums)):
                     glow_donate(nums[i], room_list[i])
-                logger.info("------荧光棒捐赠结束------")
+                logger.info("荧光棒剩余：%s" % glow_nums)
+                logger.debug("------荧光棒捐赠结束------")
                 get_need_exp()
             elif mode == 0:
-                logger.info("当前选择模式为:平均分配模式")
+                logger.debug("当前选择模式为:平均分配模式")
                 room_list = get_room_list()
                 every_give = math.ceil(glow_nums / len(room_list))
                 left = int(glow_nums) - int(every_give) * (len(room_list) - 1)
-                logger.info("------开始捐赠荧光棒------")
+                logger.debug("------开始捐赠荧光棒------")
                 for room in room_list:
                     if room == room_list[-1]:
                         glow_donate(left, room)
                     else:
                         glow_donate(every_give, room)
-                logger.info("------荧光棒捐赠结束------")
+                logger.info("荧光棒剩余：%s" % glow_nums)
+                logger.debug("------荧光棒捐赠结束------")
                 get_need_exp()
             else:
                 logger.warning("配置错误,没有这种选项,请修改配置并重新执行")

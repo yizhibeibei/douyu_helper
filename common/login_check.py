@@ -17,7 +17,7 @@ def is_login():
     login = dyreq.request("get", login_url).json()
     if login['error'] == 0:
         Is_login = 1
-        logger.info("Cookie有效,登陆成功")
+        logger.debug("Cookie有效,登陆成功")
     else:
         logger.warning("登陆失败,请检查Cookie有效性")
         # check if get_secrets('BARKURL') starts with http

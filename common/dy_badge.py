@@ -52,7 +52,7 @@ def get_need_exp():
     nums = conf.get_conf_list('selfMode', 'giftCount')
     for i in range(len(get_badge()[1])):
         days_require = int(math.ceil(int(math.ceil(get_badge()[1][i])) / int(nums[i])))
-        logger.info("房间号%s升级还需%s点经验,还需%s天" % (get_room_list()[i], get_badge()[1][i], days_require))
+        logger.debug("房间号%s升级还需%s点经验,还需%s天" % (get_room_list()[i], get_badge()[1][i], days_require))
         barkurl = get_secrets('BARKURL')
         if barkurl.startswith('http'):
             requests.get(barkurl + "/房间号%s/升级还需%s点经验,+%s天" % (get_room_list()[i], get_badge()[1][i], days_require))
