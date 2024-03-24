@@ -8,6 +8,8 @@ on:
   schedule:
     - cron: '02 16 * * *'
     - cron: '02 19 * * *'
+    - cron: '02 20 * * *'
+    
 
 jobs:
   dy_auto_donate_helper:
